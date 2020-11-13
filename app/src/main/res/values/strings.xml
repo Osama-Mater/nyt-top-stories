@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NYT Top Stories</string>
+    <string name="top_stories">Top Stories</string>
+    <string name="favorites">Favorites</string>
+</resources>

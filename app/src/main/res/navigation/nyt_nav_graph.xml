@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nyt_nav_graph.xml"
+    app:startDestination="@id/topStoriesListFragment">
+
+    <fragment
+        android:id="@+id/topStoriesListFragment"
+        android:name="com.mattar.nyt_top_stories.topstorieslist.TopStoriesListFragment"
+        android:label="top_stories_list_fragment"
+        tools:layout="@layout/top_stories_list_fragment">
+
+        <action
+            android:id="@+id/action_topStoriesListFragment_to_storyDetailsFragment"
+            app:destination="@id/storyDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storyDetailsFragment"
+        android:name="com.mattar.nyt_top_stories.storydetails.StoryDetailsFragment"
+        android:label="story_details_fragment"
+        tools:layout="@layout/story_details_fragment">
+        <action
+            android:id="@+id/action_storyDetailsFragment_self"
+            app:popUpTo="@id/topStoriesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteStoriesFragment"
+        android:name="com.mattar.nyt_top_stories.favourites.FavouriteStoriesFragment"
+        android:label="favourite_stories_fragment"
+        tools:layout="@layout/favourite_stories_fragment" />
+</navigation>
