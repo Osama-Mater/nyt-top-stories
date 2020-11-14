@@ -2,4 +2,8 @@
     <string name="app_name">NYT Top Stories</string>
     <string name="top_stories">Top Stories</string>
     <string name="favorites">Favorites</string>
+    <string name="data_not_found">Data not found</string>
+    <string name="content_description_media">NYT story image</string>
+    <string name="title">Title</string>
+    <string name="secondary_text">Publication Date</string>
 </resources>
