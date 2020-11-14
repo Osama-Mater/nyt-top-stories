@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_storyDetailsFragment_self"
             app:popUpTo="@id/topStoriesListFragment" />
+        <argument
+            android:name="story"
+            app:argType="com.mattar.nyt_top_stories.data.model.Story" />
     </fragment>
     <fragment
         android:id="@+id/favouriteStoriesFragment"

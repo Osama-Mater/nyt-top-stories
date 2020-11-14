@@ -1,5 +1,9 @@
 package com.mattar.nyt_top_stories.data.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Story(
     val `abstract`: String,
     val byline: String,
@@ -20,4 +24,4 @@ data class Story(
     val updated_date: String,
     val uri: String,
     val url: String
-)
+) : Parcelable
