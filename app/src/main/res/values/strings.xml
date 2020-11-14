@@ -6,4 +6,6 @@
     <string name="content_description_media">NYT story image</string>
     <string name="title">Title</string>
     <string name="secondary_text">Publication Date</string>
+    <string name="details">Details</string>
+    <string name="storyUrl">Story URL</string>
 </resources>
