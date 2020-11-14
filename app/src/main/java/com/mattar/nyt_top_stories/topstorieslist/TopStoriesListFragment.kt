@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mattar.nyt_top_stories.R
@@ -42,16 +41,8 @@ class TopStoriesListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val context = requireContext()
-
         recyclerView.apply {
             setHasFixedSize(true)
-            val columnWidth = context.resources.getDimension(R.dimen.image_size).toInt()
-//            layoutManager =
-//                GridAutofitLayoutManager(
-//                    context,
-//                    columnWidth
-//                )
             adapter = nytTopStoriesAdapter
         }
 
