@@ -1,6 +1,5 @@
 package com.mattar.nyt_top_stories.topstorieslist
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.mattar.nyt_top_stories.base.viewmodel.BaseAction
 import com.mattar.nyt_top_stories.base.viewmodel.BaseViewModel
@@ -8,9 +7,12 @@ import com.mattar.nyt_top_stories.base.viewmodel.BaseViewState
 import com.mattar.nyt_top_stories.data.Result
 import com.mattar.nyt_top_stories.data.model.Story
 import com.mattar.nyt_top_stories.data.source.NytRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class TopStoriesListViewModel @ViewModelInject constructor(private val nytRepository: NytRepository) :
+@HiltViewModel
+internal class TopStoriesListViewModel @Inject constructor(private val nytRepository: NytRepository) :
     BaseViewModel<TopStoriesListViewModel.ViewState, TopStoriesListViewModel.Action>(ViewState()) {
 
     override fun onLoadData() {

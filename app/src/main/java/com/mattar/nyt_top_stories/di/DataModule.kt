@@ -8,34 +8,31 @@ import com.mattar.nyt_top_stories.data.source.remote.NytRemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.components.ViewModelComponent
 import javax.inject.Qualifier
-import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(ViewModelComponent::class)
 object DataModule {
 
     @Qualifier
     @Retention(AnnotationRetention.RUNTIME)
     annotation class RemoteNytDataSource
 
-    @Singleton
     @RemoteNytDataSource
     @Provides
-    fun provideTvShowRemoteDataSource(nytService: NytService): NytDataSource {
+    fun provideNytRemoteDataSource(nytService: NytService): NytDataSource {
         return NytRemoteDataSource(nytService)
     }
 }
 
 /**
- * The binding for TvShowRepository is on its own module so that we can replace it easily in tests.
+ * The binding for NytRepository is on its own module so that we can replace it easily in tests.
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(ViewModelComponent::class)
 object NytRepositoryModule {
 
-    @Singleton
     @Provides
     fun provideNytRepository(
         @DataModule.RemoteNytDataSource nytRemoteDataSource: NytDataSource

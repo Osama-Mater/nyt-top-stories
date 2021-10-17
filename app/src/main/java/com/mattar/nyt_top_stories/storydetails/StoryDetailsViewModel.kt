@@ -1,14 +1,16 @@
 package com.mattar.nyt_top_stories.storydetails
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.mattar.nyt_top_stories.base.viewmodel.BaseAction
 import com.mattar.nyt_top_stories.base.viewmodel.BaseViewModel
 import com.mattar.nyt_top_stories.base.viewmodel.BaseViewState
 import com.mattar.nyt_top_stories.data.Result
 import com.mattar.nyt_top_stories.data.model.Story
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-internal class StoryDetailsViewModel @ViewModelInject constructor() :
+@HiltViewModel
+internal class StoryDetailsViewModel @Inject constructor() :
     BaseViewModel<StoryDetailsViewModel.ViewState, StoryDetailsViewModel.Action>(ViewState()) {
 
     private val _story = MutableLiveData<Story>()
@@ -54,6 +56,4 @@ internal class StoryDetailsViewModel @ViewModelInject constructor() :
         object StoryLoadingFailure : Action()
         object StoryLoading : Action()
     }
-
-
 }
