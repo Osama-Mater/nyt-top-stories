@@ -10,7 +10,6 @@ import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.extension.observe
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
 import com.mattar.nyt_top_stories.topstorieslist.recyclerView.NytTopStoriesAdapter
-import kotlinx.android.synthetic.main.top_stories_list_fragment.*
 
 class TopStoriesListFragment : BaseFragment() {
 

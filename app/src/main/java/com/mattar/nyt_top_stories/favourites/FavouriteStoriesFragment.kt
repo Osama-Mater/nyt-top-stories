@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
-import kotlinx.android.synthetic.main.favourite_stories_fragment.*
 
 class FavouriteStoriesFragment : BaseFragment() {
 

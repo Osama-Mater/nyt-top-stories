@@ -12,7 +12,6 @@ import coil.load
 import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.extension.observe
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
-import kotlinx.android.synthetic.main.story_details_fragment.*
 
 class StoryDetailsFragment : BaseFragment() {
 
