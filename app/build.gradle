@@ -23,13 +23,11 @@ def getProperty(String filename, String propName) {
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.mattar.nyt_top_stories"
         minSdkVersion 21
-        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -49,6 +47,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
