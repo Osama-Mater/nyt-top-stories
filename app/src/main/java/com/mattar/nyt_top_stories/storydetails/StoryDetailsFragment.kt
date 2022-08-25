@@ -12,26 +12,30 @@ import coil.load
 import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.extension.observe
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
+import com.mattar.nyt_top_stories.databinding.StoryDetailsFragmentBinding
+import com.mattar.nyt_top_stories.utils.viewBinding
 
 class StoryDetailsFragment : BaseFragment() {
+    private val binding by viewBinding(StoryDetailsFragmentBinding::bind)
 
     private val viewModel by viewModels<StoryDetailsViewModel>()
     private val args: StoryDetailsFragmentArgs by navArgs()
 
     private val stateObserver = Observer<StoryDetailsViewModel.ViewState> { viewState ->
-
-        storyImage.load(viewState.story!!.multimedia.filter { image -> image.format == "thumbLarge" }
-            .first().url) {
-            crossfade(true)
-            error(R.drawable.ic_image)
-            fallback(R.drawable.ic_image)
-        }
-        storyTitle.text = viewState.story.title
-        storyPublicationDate.text = viewState.story.published_date
-        storyAbstract.text = viewState.story.abstract
-        storyUrl.apply {
-            text = viewState.story.short_url
-            movementMethod = LinkMovementMethod.getInstance()
+        with(binding) {
+            storyImage.load(viewState.story!!.multimedia.filter { image -> image.format == "thumbLarge" }
+                .first().url) {
+                crossfade(true)
+                error(R.drawable.ic_image)
+                fallback(R.drawable.ic_image)
+            }
+            storyTitle.text = viewState.story.title
+            storyPublicationDate.text = viewState.story.published_date
+            storyAbstract.text = viewState.story.abstract
+            storyUrl.apply {
+                text = viewState.story.short_url
+                movementMethod = LinkMovementMethod.getInstance()
+            }
         }
     }
 
