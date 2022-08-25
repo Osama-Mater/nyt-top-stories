@@ -9,9 +9,13 @@ import androidx.lifecycle.Observer
 import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.extension.observe
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
+import com.mattar.nyt_top_stories.databinding.TopStoriesListFragmentBinding
 import com.mattar.nyt_top_stories.topstorieslist.recyclerView.NytTopStoriesAdapter
+import com.mattar.nyt_top_stories.utils.viewBinding
 
 class TopStoriesListFragment : BaseFragment() {
+
+    private val binding by viewBinding(TopStoriesListFragmentBinding::bind)
 
     private val viewModel by viewModels<TopStoriesListViewModel>()
     private val nytTopStoriesAdapter: NytTopStoriesAdapter = NytTopStoriesAdapter()
@@ -19,14 +23,14 @@ class TopStoriesListFragment : BaseFragment() {
     private val stateObserver = Observer<TopStoriesListViewModel.ViewState> { viewState ->
         nytTopStoriesAdapter.topStories = viewState.topStories
         if (viewState.isLoading) {
-            progressBar.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
         } else {
-            progressBar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }
         if (viewState.isError) {
-            errorAnimation.visibility = View.VISIBLE
+            binding.errorAnimation.visibility = View.VISIBLE
         } else {
-            errorAnimation.visibility = View.GONE
+            binding.errorAnimation.visibility = View.GONE
         }
     }
 
@@ -40,7 +44,7 @@ class TopStoriesListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             setHasFixedSize(true)
             adapter = nytTopStoriesAdapter
         }
