@@ -1,7 +1,6 @@
 package com.mattar.nyt_top_stories.topstorieslist.recyclerView
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +8,7 @@ import coil.load
 import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.delegate.observer
 import com.mattar.nyt_top_stories.data.model.Story
+import com.mattar.nyt_top_stories.databinding.StoryListItemBinding
 import com.mattar.nyt_top_stories.topstorieslist.TopStoriesListFragmentDirections
 
 internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.MyViewHolder>() {
@@ -18,9 +18,13 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.story_list_item, parent, false)
-        return MyViewHolder(view)
+        return MyViewHolder(
+            StoryListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -36,9 +40,10 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
 
     override fun getItemCount(): Int = topStories.size
 
-    internal inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal inner class MyViewHolder(private val binding: StoryListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private var url by observer<String?>(null) {
-            itemView.storyImage.load(it) {
+            binding.storyImage.load(it) {
                 crossfade(true)
                 error(R.drawable.ic_image)
                 fallback(R.drawable.ic_image)
@@ -47,8 +52,8 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
 
         fun bind(story: Story) {
             url = story.multimedia.filter { image -> image.format == "thumbLarge" }.first().url
-            itemView.storyTitle.text = story.title
-            itemView.storyPublicationDate.text = story.published_date
+            binding.storyTitle.text = story.title
+            binding.storyPublicationDate.text = story.published_date
 
         }
     }
