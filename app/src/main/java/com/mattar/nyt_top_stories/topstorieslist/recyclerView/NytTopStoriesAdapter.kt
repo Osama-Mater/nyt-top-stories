@@ -10,7 +10,6 @@ import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.delegate.observer
 import com.mattar.nyt_top_stories.data.model.Story
 import com.mattar.nyt_top_stories.topstorieslist.TopStoriesListFragmentDirections
-import kotlinx.android.synthetic.main.story_list_item.view.*
 
 internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.MyViewHolder>() {
 
