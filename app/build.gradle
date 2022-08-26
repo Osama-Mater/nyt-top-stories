@@ -27,7 +27,7 @@ android {
 
     defaultConfig {
         applicationId "com.mattar.nyt_top_stories"
-        minSdkVersion 21
+        minSdkVersion 24
         versionCode 1
         versionName "1.0"
 
