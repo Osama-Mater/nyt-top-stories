@@ -51,10 +51,9 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
         }
 
         fun bind(story: Story) {
-            url = story.multimedia.filter { image -> image.format == "thumbLarge" }.first().url
+            url = story.multimedia.filter { image -> image.format == "Large Thumbnail" }.first().url
             binding.storyTitle.text = story.title
             binding.storyPublicationDate.text = story.published_date
-
         }
     }
 }

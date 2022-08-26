@@ -23,7 +23,7 @@ class StoryDetailsFragment : BaseFragment() {
 
     private val stateObserver = Observer<StoryDetailsViewModel.ViewState> { viewState ->
         with(binding) {
-            storyImage.load(viewState.story!!.multimedia.filter { image -> image.format == "thumbLarge" }
+            storyImage.load(viewState.story!!.multimedia.filter { image -> image.format == "Large Thumbnail" }
                 .first().url) {
                 crossfade(true)
                 error(R.drawable.ic_image)
