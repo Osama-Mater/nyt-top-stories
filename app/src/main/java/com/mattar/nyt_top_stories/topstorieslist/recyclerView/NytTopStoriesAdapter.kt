@@ -29,7 +29,7 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(topStories[position])
-        holder.itemView.setOnClickListener {
+        holder.binding.root.setOnClickListener {
             val action =
                 TopStoriesListFragmentDirections.actionTopStoriesListFragmentToStoryDetailsFragment(
                     topStories[position]
@@ -40,7 +40,7 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
 
     override fun getItemCount(): Int = topStories.size
 
-    internal inner class MyViewHolder(private val binding: StoryListItemBinding) :
+    internal inner class MyViewHolder(val binding: StoryListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var url by observer<String?>(null) {
             binding.storyImage.load(it) {
