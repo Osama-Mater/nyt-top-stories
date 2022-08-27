@@ -19,7 +19,7 @@ data class Story(
     val multimedia: List<Multimedia>,
     val org_facet: List<String>,
     val per_facet: List<String>,
-    val published_date: String,
+    val published_date: Date,
     val section: String,
     val short_url: String,
     val subsection: String,
