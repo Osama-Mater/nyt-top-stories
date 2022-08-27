@@ -1,5 +1,6 @@
 package com.mattar.nyt_top_stories.topstorieslist.recyclerView
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -10,6 +11,7 @@ import com.mattar.nyt_top_stories.base.delegate.observer
 import com.mattar.nyt_top_stories.data.model.Story
 import com.mattar.nyt_top_stories.databinding.StoryListItemBinding
 import com.mattar.nyt_top_stories.topstorieslist.TopStoriesListFragmentDirections
+import java.util.*
 
 internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.MyViewHolder>() {
 
@@ -53,7 +55,11 @@ internal class NytTopStoriesAdapter : RecyclerView.Adapter<NytTopStoriesAdapter.
         fun bind(story: Story) {
             url = story.multimedia.filter { image -> image.format == "Large Thumbnail" }.first().url
             binding.storyTitle.text = story.title
-            binding.storyPublicationDate.text = story.published_date
+            binding.storyPublicationDate.text = DateUtils.getRelativeTimeSpanString(
+                story.published_date.time,
+                Calendar.getInstance().timeInMillis,
+                DateUtils.DAY_IN_MILLIS
+            )
         }
     }
 }
