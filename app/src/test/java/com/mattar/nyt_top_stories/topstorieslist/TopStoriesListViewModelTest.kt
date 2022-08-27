@@ -19,6 +19,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.*
 
 
 internal class TopStoriesListViewModelTest {
@@ -71,7 +72,7 @@ internal class TopStoriesListViewModelTest {
         assertEquals(
             TopStoriesListViewModel.ViewState(
                 isLoading = false,
-                isError = true,
+                isError = false,
                 topStories = listOf()
             ), cut.stateLiveData.value
         )
@@ -91,7 +92,7 @@ internal class TopStoriesListViewModelTest {
             item_type = "Interactive",
             updated_date = "2022-08-27T09:49:39-04:00",
             created_date = "2022-08-26T16:17:00-04:00",
-            published_date = "2022-08-26T16:17:00-04:00",
+            published_date = Date(),
             material_type_facet = "",
             kicker = "",
             des_facet = listOf("Classified Information and State Secrets"),
