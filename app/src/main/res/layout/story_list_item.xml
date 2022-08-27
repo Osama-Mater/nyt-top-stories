@@ -34,6 +34,17 @@
             tools:text="@string/title" />
 
         <TextView
+            android:id="@+id/storyAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/space_medium"
+            android:paddingEnd="@dimen/space_medium"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/storyTitle"
+            tools:text="Author" />
+
+        <TextView
             android:id="@+id/storyPublicationDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +54,7 @@
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/storyTitle"
+            app:layout_constraintTop_toBottomOf="@id/storyAuthor"
             tools:text="@string/secondary_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
