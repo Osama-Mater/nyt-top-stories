@@ -1,12 +1,14 @@
 package com.mattar.nyt_top_stories.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class TopStories(
     val copyright: String,
     val last_updated: String,
     val num_results: Int,
-    @SerializedName("results")
+    @Json(name = "results")
     val stories: List<Story>,
     val section: String,
     val status: String

@@ -1,8 +1,11 @@
 package com.mattar.nyt_top_stories.data.model
 
 import android.os.Parcelable
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
+@JsonClass(generateAdapter = true)
 @Parcelize
 data class Story(
     val `abstract`: String,
