@@ -1,7 +1,6 @@
 package com.mattar.nyt_top_stories.storydetails
 
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +13,8 @@ import com.mattar.nyt_top_stories.R
 import com.mattar.nyt_top_stories.base.extension.observe
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
 import com.mattar.nyt_top_stories.databinding.StoryDetailsFragmentBinding
+import com.mattar.nyt_top_stories.utils.dateString
 import com.mattar.nyt_top_stories.utils.viewBinding
-import java.util.*
 
 class StoryDetailsFragment : BaseFragment() {
     private val binding by viewBinding(StoryDetailsFragmentBinding::bind)
@@ -32,11 +31,7 @@ class StoryDetailsFragment : BaseFragment() {
                 fallback(R.drawable.ic_image)
             }
             storyTitle.text = viewState.story.title
-            storyPublicationDate.text = DateUtils.getRelativeTimeSpanString(
-                viewState.story.published_date.time,
-                Calendar.getInstance().timeInMillis,
-                DateUtils.DAY_IN_MILLIS
-            )
+            storyPublicationDate.text = dateString(viewState.story.published_date)
             storyAbstract.text = viewState.story.abstract
             storyUrl.apply {
                 text = viewState.story.short_url
