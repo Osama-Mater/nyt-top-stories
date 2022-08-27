@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/topStoriesListFragment"
         android:name="com.mattar.nyt_top_stories.topstorieslist.TopStoriesListFragment"
-        android:label="top_stories_list_fragment"
+        android:label="Top Stories"
         tools:layout="@layout/top_stories_list_fragment">
 
         <action
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/storyDetailsFragment"
         android:name="com.mattar.nyt_top_stories.storydetails.StoryDetailsFragment"
-        android:label="story_details_fragment"
+        android:label="Details"
         tools:layout="@layout/story_details_fragment">
         <action
             android:id="@+id/action_storyDetailsFragment_self"
