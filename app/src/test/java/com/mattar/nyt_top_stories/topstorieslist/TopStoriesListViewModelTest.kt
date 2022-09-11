@@ -74,7 +74,7 @@ internal class TopStoriesListViewModelTest {
                 isLoading = false,
                 isError = false,
                 topStories = listOf()
-            ), cut.stateLiveData.value
+            ), cut.viewStateFlow.value
         )
     }
 
@@ -152,7 +152,7 @@ internal class TopStoriesListViewModelTest {
                 isLoading = false,
                 isError = false,
                 topStories = topStories.stories
-            ), cut.stateLiveData.value
+            ), cut.viewStateFlow.value
         )
     }
 }
