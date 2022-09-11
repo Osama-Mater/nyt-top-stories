@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.mattar.nyt_top_stories.R
-import com.mattar.nyt_top_stories.base.extension.observe
 import com.mattar.nyt_top_stories.base.fragment.BaseFragment
 import com.mattar.nyt_top_stories.databinding.TopStoriesListFragmentBinding
 import com.mattar.nyt_top_stories.topstorieslist.recyclerView.NytTopStoriesAdapter
 import com.mattar.nyt_top_stories.utils.viewBinding
+import kotlinx.coroutines.launch
 
 class TopStoriesListFragment : BaseFragment() {
 
@@ -19,20 +21,6 @@ class TopStoriesListFragment : BaseFragment() {
 
     private val viewModel by viewModels<TopStoriesListViewModel>()
     private val nytTopStoriesAdapter: NytTopStoriesAdapter = NytTopStoriesAdapter()
-
-    private val stateObserver = Observer<TopStoriesListViewModel.ViewState> { viewState ->
-        nytTopStoriesAdapter.topStories = viewState.topStories
-        if (viewState.isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
-        if (viewState.isError) {
-            binding.errorAnimation.visibility = View.VISIBLE
-        } else {
-            binding.errorAnimation.visibility = View.GONE
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +37,23 @@ class TopStoriesListFragment : BaseFragment() {
             adapter = nytTopStoriesAdapter
         }
 
-        observe(viewModel.stateLiveData, stateObserver)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.viewStateFlow.collect { viewState ->
+                    nytTopStoriesAdapter.topStories = viewState.topStories
+                    if (viewState.isLoading) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                    if (viewState.isError) {
+                        binding.errorAnimation.visibility = View.VISIBLE
+                    } else {
+                        binding.errorAnimation.visibility = View.GONE
+                    }
+                }
+            }
+        }
         viewModel.loadData()
     }
 }
