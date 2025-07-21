@@ -5,6 +5,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 def getProperty(String filename, String propName) {
@@ -52,8 +53,14 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true
     }
     namespace 'com.mattar.nyt_top_stories'
+}
+
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
 }
 
 dependencies {
@@ -68,6 +75,24 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    //Jetpack Compose
+    def composeBom = platform('androidx.compose:compose-bom:2025.07.00')
+    implementation composeBom
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.ui:ui'
+
+    implementation 'androidx.activity:activity-compose:1.10.1'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2'
+
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    implementation 'androidx.compose.material:material-icons-extended'
+
+    implementation 'androidx.compose.material3.adaptive:adaptive'
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
@@ -88,6 +113,10 @@ dependencies {
     testImplementation "io.mockk:mockk:1.14.5"
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2'
     testImplementation "androidx.arch.core:core-testing:2.2.0"
+
+    androidTestImplementation composeBom
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
 }
 
 kapt {
