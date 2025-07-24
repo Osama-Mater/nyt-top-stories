@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
@@ -95,9 +95,15 @@ dependencies {
     implementation 'androidx.compose.material3.adaptive:adaptive'
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation 'androidx.hilt:hilt-work:1.2.0'
+    ksp 'androidx.hilt:hilt-compiler:1.2.0'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.2.0'
+
 
     implementation("io.coil-kt:coil:2.7.0")
+    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
 
     implementation "com.squareup.okhttp3:okhttp:5.1.0"
     implementation "com.squareup.okhttp3:logging-interceptor:5.1.0"
@@ -108,6 +114,8 @@ dependencies {
 
     implementation "com.airbnb.android:lottie:6.6.7"
 
+    implementation 'androidx.work:work-runtime-ktx:2.10.2'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     testImplementation "io.mockk:mockk:1.14.5"
@@ -117,8 +125,4 @@ dependencies {
     androidTestImplementation composeBom
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
-}
-
-kapt {
-    correctErrorTypes true
 }
