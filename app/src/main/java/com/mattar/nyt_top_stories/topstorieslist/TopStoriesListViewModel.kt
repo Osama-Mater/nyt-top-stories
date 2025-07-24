@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class TopStoriesListViewModel @Inject constructor(private val nytRepository: NytRepository) :
+class TopStoriesListViewModel @Inject constructor(private val nytRepository: NytRepository) :
     BaseViewModel<TopStoriesListViewModel.ViewState, TopStoriesListViewModel.Action>(ViewState()) {
 
     override fun onLoadData() {
@@ -25,8 +25,10 @@ internal class TopStoriesListViewModel @Inject constructor(private val nytReposi
                 val action = when (result) {
                     is Result.Loading ->
                         Action.TopStoriesListLoading
+
                     is Result.Success ->
                         Action.TopStoriesListLoadingSuccess(result.data.stories)
+
                     is Result.Error ->
                         Action.TopStoriesListLoadingFailure
                 }
@@ -41,11 +43,13 @@ internal class TopStoriesListViewModel @Inject constructor(private val nytReposi
             isError = false,
             topStories = listOf()
         )
+
         is Action.TopStoriesListLoadingSuccess -> state.copy(
             isLoading = false,
             isError = false,
             topStories = viewAction.topStories
         )
+
         is Action.TopStoriesListLoadingFailure -> state.copy(
             isLoading = false,
             isError = true,
@@ -53,13 +57,13 @@ internal class TopStoriesListViewModel @Inject constructor(private val nytReposi
         )
     }
 
-    internal data class ViewState(
+    data class ViewState(
         val isLoading: Boolean = true,
         val isError: Boolean = false,
         val topStories: List<Story> = listOf()
     ) : BaseViewState
 
-    internal sealed class Action : BaseAction {
+    sealed class Action : BaseAction {
         class TopStoriesListLoadingSuccess(val topStories: List<Story>) : Action()
         object TopStoriesListLoadingFailure : Action()
         object TopStoriesListLoading : Action()
