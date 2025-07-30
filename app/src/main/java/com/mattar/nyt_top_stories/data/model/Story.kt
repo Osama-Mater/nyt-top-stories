@@ -3,7 +3,7 @@ package com.mattar.nyt_top_stories.data.model
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
 @Parcelize

@@ -8,12 +8,21 @@ import com.mattar.nyt_top_stories.data.Result
 import com.mattar.nyt_top_stories.data.model.Story
 import com.mattar.nyt_top_stories.data.source.NytRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TopStoriesListViewModel @Inject constructor(private val nytRepository: NytRepository) :
     BaseViewModel<TopStoriesListViewModel.ViewState, TopStoriesListViewModel.Action>(ViewState()) {
+
+    private val _selectedStory = MutableStateFlow<Story?>(null)
+    val selectedStory = _selectedStory.asStateFlow()
+
+    fun selectStory(story: Story) {
+        _selectedStory.value = story
+    }
 
     override fun onLoadData() {
         getTopStoriesList()

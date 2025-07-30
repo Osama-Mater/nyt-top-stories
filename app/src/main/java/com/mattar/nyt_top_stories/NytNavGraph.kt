@@ -1,114 +1,112 @@
 package com.mattar.nyt_top_stories
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mattar.nyt_top_stories.NytScreens.STORY_DETAILS
+import com.mattar.nyt_top_stories.storydetails.StoryDetailsScreen
 import com.mattar.nyt_top_stories.topstorieslist.ArticlesTopStoriesScreen
+import com.mattar.nyt_top_stories.topstorieslist.TopStoriesListViewModel
 
-enum class NytDestinations(
-    val route: String,
-    val label: String,
-    val icon: Int,
-    val contentDescription: String
-) {
-    TOPSTORIES(
-        "ArticlesTopStoriesScreen",
-        "Top Stories",
-        R.drawable.ic_round_dashboard,
-        "Top Stories"
-    ),
-    FAVOURITES("Favorites", "Favorites", R.drawable.ic_round_favorite, "Favorites"),
+object NytScreens {
+    const val TOP_STORIES = "topStories"
+    const val FAVOURITES = "favourites"
+    const val STORY_DETAILS = "storyDetails"
 }
+
+data class NavigationItem(val route: String, val label: String, val icon: Int)
 
 @Composable
 fun NytNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: NytDestinations,
-    modifier: Modifier = Modifier
+    articlesTopStoriesListViewModel: TopStoriesListViewModel
 ) {
 
-    NavHost(navController = navController, startDestination = startDestination.route) {
-        NytDestinations.entries.forEach { destination ->
-            composable(route = destination.route) {
-                when (destination) {
-                    NytDestinations.TOPSTORIES -> ArticlesTopStoriesScreen()
-                    NytDestinations.FAVOURITES -> {}
-                }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    Scaffold(
+        bottomBar = {
+            // Conditionally display the BottomNavigation
+            if (currentRoute == NytScreens.TOP_STORIES || currentRoute == NytScreens.FAVOURITES) {
+                BottomNavigationBar(navController = navController)
             }
         }
-
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = NytScreens.TOP_STORIES,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(NytScreens.TOP_STORIES) {
+                ArticlesTopStoriesScreen(
+                    viewModel = articlesTopStoriesListViewModel,
+                    onStoryClick = {
+                        navController.navigate("$STORY_DETAILS")
+                    })
+            }
+            composable(NytScreens.FAVOURITES) {
+            }
+            composable(route = "$STORY_DETAILS") { backStackEntry ->
+                StoryDetailsScreen(
+                    articlesTopStoriesListViewModel = articlesTopStoriesListViewModel,
+                    onBack = {
+                        navController.popBackStack()
+                    })
+            }
+        }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigationBar() {
-    val navController: NavHostController = rememberNavController()
+fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
+) {
+    val items = listOf(
+        NavigationItem(NytScreens.TOP_STORIES, "Top Stories", R.drawable.ic_round_dashboard),
+        NavigationItem(NytScreens.FAVOURITES, "Favorites", R.drawable.ic_round_favorite)
+    )
 
-    val startDestination = NytDestinations.TOPSTORIES
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ), title = { Text("Top Stories") }
-            )
-        },
-        bottomBar = {
-            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                NytDestinations.entries.forEachIndexed { index, destination ->
-                    NavigationBarItem(
-                        selected = selectedDestination == index,
-                        onClick = {
-                            navController.navigate(route = destination.route)
-                            selectedDestination = index
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(destination.icon),
-                                contentDescription = destination.contentDescription
-                            )
-                        },
-                        label = { Text(destination.label) }
+    NavigationBar(modifier = modifier) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
 
-                    )
+        items.forEach { screen ->
+            NavigationBarItem(
+                icon = { Icon(painter = painterResource(screen.icon), contentDescription = null) },
+                label = { Text(screen.label) },
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
                 }
-            }
-        }
-    ) { contentPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding)
-        ) {
-            NytNavGraph(
-                navController,
-                startDestination,
-                modifier = Modifier.padding(contentPadding)
             )
         }
     }
